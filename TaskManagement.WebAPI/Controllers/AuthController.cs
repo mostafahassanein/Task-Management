@@ -18,9 +18,9 @@ namespace TaskManagement.WebAPI.Controllers
     {
         private readonly List<string> users = new List<string>() { "mostafa", "adham", "lara" };
         private readonly IConfiguration _config;
-        private readonly ILogger<TaskManagmentController> _logger;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IConfiguration config, ILogger<TaskManagmentController> logger)
+        public AuthController(IConfiguration config, ILogger<AuthController> logger)
         {
             _config = config;
             _logger = logger;

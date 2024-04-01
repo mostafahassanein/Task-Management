@@ -46,10 +46,10 @@ namespace TaskManagement.WebAPI.Controllers
         {
             try
             {
-                //if (!ModelState.IsValid) return BadRequest(ModelState);
-                //var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-                //if (jwt == null) return Unauthorized();
-                //if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+                if (jwt == null) return Unauthorized();
+                if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
                 var tasks = await _taskManagementService.GetAllsTasks();
                 return Ok(_mapper.Map<List<GetTaskResponse>>(tasks)); 
             }

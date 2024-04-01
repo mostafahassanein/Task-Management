@@ -22,9 +22,9 @@ namespace TaskManagement.WebAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IChatHistoryService _chatHistoryService;
         private readonly IHubContext<ChatHub> _hubContext;
-        private readonly ILogger<TaskManagmentController> _logger;
+        private readonly ILogger<ChatController> _logger;
         private readonly List<string> friends = new List<string>() { "mostafa", "adham", "lara" };
-        public ChatController(IMapper mapper, IChatHistoryService chatHistoryService, IHubContext<ChatHub> hubContext, ILogger<TaskManagmentController> logger)
+        public ChatController(IMapper mapper, IChatHistoryService chatHistoryService, IHubContext<ChatHub> hubContext, ILogger<ChatController> logger)
         {
             _mapper = mapper;
             _hubContext = hubContext;
@@ -37,10 +37,10 @@ namespace TaskManagement.WebAPI.Controllers
             try
             {
 
-                //if (!ModelState.IsValid) return BadRequest(ModelState);
-                //var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-                //if (jwt == null) return Unauthorized();
-                //if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+                if (jwt == null) return Unauthorized();
+                if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
                 var chatHistory = _chatHistoryService.GetChatHistory().Result
                     .Where(msg => (msg.User == user && msg.Recipient == recipient) || (msg.User == recipient && msg.Recipient == user))
                     .ToList();
@@ -57,10 +57,10 @@ namespace TaskManagement.WebAPI.Controllers
         {
             try
             {
-                //if (!ModelState.IsValid) return BadRequest(ModelState);
-                //var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-                //if (jwt == null) return Unauthorized();
-                //if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+                if (jwt == null) return Unauthorized();
+                if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
                 await _chatHistoryService.AddMessage(_mapper.Map<Entities.ChatMessage>(_request));
                 await _hubContext.Clients.Group(_request.Recipient).SendAsync("ReceiveMessage", _request.User, _request.Message);
                 return Ok();
@@ -96,23 +96,6 @@ namespace TaskManagement.WebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        //[HttpPost]
-        //public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest _request)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        if(await _chatService.SendMessage(_mapper.Map<Entities.Notification>(_request)))
-        //        {
-        //            await _hubContext.Clients.All.SendMessage(_request.message);
-        //        }
-        //    }
-        //    return BadRequest(ModelState);
-        //}
-        //[HttpGet("History")]
-        //public ActionResult<IEnumerable<ChatMessage>> GetChatHistory()
-        //{
-        //    var chatHistory = _chatService.GetChatHistory();
-        //    return Ok(chatHistory);
-        //}
+        
     }
 }

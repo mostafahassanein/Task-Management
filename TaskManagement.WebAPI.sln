@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.DataContext"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Entities", "TaskManagement.Entities\TaskManagement.Entities.csproj", "{1C6E808A-C6B4-403D-A3C5-C5D9128BC0F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.WebAPI.UnitTest", "TaskManagement.WebAPI.UnitTest\TaskManagement.WebAPI.UnitTest.csproj", "{F668838E-BBB0-4619-8F9A-AB221D120959}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1C6E808A-C6B4-403D-A3C5-C5D9128BC0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C6E808A-C6B4-403D-A3C5-C5D9128BC0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C6E808A-C6B4-403D-A3C5-C5D9128BC0F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F668838E-BBB0-4619-8F9A-AB221D120959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F668838E-BBB0-4619-8F9A-AB221D120959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F668838E-BBB0-4619-8F9A-AB221D120959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F668838E-BBB0-4619-8F9A-AB221D120959}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
