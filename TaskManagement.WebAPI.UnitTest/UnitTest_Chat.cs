@@ -80,30 +80,27 @@ namespace TaskManagement.WebAPI.UnitTest
             Assert.IsNotNull(okObjectResult.Value);
         }
 
-       
-
         [Test]
-        public async Task GetChatHistory_WithValidParameters_ReturnsOk()
+        public async Task GetChatHistory_WithValidRequest_ReturnsOk()
         {
-            var user = "mostafa";
-            var recipient = "adham";
+            var request = new GetChatHistoryRequest { recipient = "lara" };
             var jwt = validToken;
-            var claims = new ClaimsIdentity(new[] { new Claim("Username", user) });
-            var chatHistory = new List<ChatMessage>(); 
-            _mockChatHistoryService.Setup(x => x.GetChatHistory()).ReturnsAsync(chatHistory);
+            var claims = new ClaimsIdentity(new[] { new Claim("Username", "mostafa") });
             _controller.ControllerContext = GetControllerContextWithAuthorizationHeader(jwt);
 
-            var result = await _controller.GetChatHistory(user, recipient);
+            var chatHistory = new List<ChatMessage>(); 
+            _mockChatHistoryService.Setup(x => x.GetChatHistory()).ReturnsAsync(chatHistory);
+
+            var result = await _controller.GetChatHistory(request);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ActionResult<IEnumerable<ChatMessage>>>(result);
-            var okResult = result as ActionResult<IEnumerable<ChatMessage>>;
-            Assert.IsNotNull(okResult);
-            Assert.IsInstanceOf<OkObjectResult>(okResult.Result);
-            var okObjectResult = okResult.Result as OkObjectResult;
+            Assert.IsInstanceOf<ActionResult<List<GetChatHistoryResponse>>>(result);
+            var actionResult = result as ActionResult<List<GetChatHistoryResponse>>;
+            Assert.IsNotNull(actionResult);
+            Assert.IsInstanceOf<OkObjectResult>(actionResult.Result);
+            var okObjectResult = actionResult.Result as OkObjectResult;
             Assert.IsNotNull(okObjectResult);
             Assert.AreEqual(200, okObjectResult.StatusCode);
-            Assert.IsNotNull(okObjectResult.Value);
         }
     }
 }

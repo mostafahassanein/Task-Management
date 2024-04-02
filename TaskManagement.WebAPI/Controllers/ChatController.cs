@@ -31,20 +31,21 @@ namespace TaskManagement.WebAPI.Controllers
             _chatHistoryService = chatHistoryService;
             _logger = logger;
         }
-        [HttpGet("GetChatHistory")]
-        public async Task<ActionResult<IEnumerable<ChatMessage>>> GetChatHistory(string user, string recipient)
+        [HttpPost("GetChatHistory")]
+        public async Task<ActionResult<List<GetChatHistoryResponse>>> GetChatHistory([FromBody] GetChatHistoryRequest _request)
         {
             try
             {
-
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 var jwt = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
                 if (jwt == null) return Unauthorized();
-                if (AuthHelper.GetTokenClaims(jwt) == null) return Unauthorized();
-                var chatHistory = _chatHistoryService.GetChatHistory().Result
-                    .Where(msg => (msg.User == user && msg.Recipient == recipient) || (msg.User == recipient && msg.Recipient == user))
+                var claims = AuthHelper.GetTokenClaims(jwt);
+                if (claims == null) return Unauthorized();
+                List<ChatMessage> chatHistory = _chatHistoryService.GetChatHistory().Result
+                    .Where(msg => (msg.User == claims.Username && msg.Recipient == _request.recipient) || (msg.User == _request.recipient && msg.Recipient == claims.Username))
                     .ToList();
-                return Ok(chatHistory);
+               return Ok(_mapper.Map<List<GetChatHistoryResponse>>(chatHistory));
+                
             }
             catch (Exception ex)
             {

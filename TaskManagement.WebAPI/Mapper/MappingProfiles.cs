@@ -26,6 +26,7 @@ namespace TaskManagement.WebAPI.Mapper
             CreateMap<ChatMessageDTO, TaskManagement.Entities.ChatMessage>();
 
             CreateMap<TaskManagement.Entities.Tasks, GetTaskResponse>();
+            CreateMap<TaskManagement.Entities.ChatMessage, GetChatHistoryResponse>();
         }
     }
 }
